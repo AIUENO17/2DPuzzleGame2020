@@ -17,14 +17,14 @@ public class ComboCounter : MonoBehaviour
     {
         DragObjList.Add(orb);
 
-        foreach(var orbs in DragObjList)
+        foreach (var orbs in DragObjList)
         {
             if (!orbs.GetComponent<OrbController>().ComboEffect.gameObject.activeSelf)
             {
                 orbs.GetComponent<OrbController>().ComboEffect.gameObject.SetActive(true);
             }
 
-            
+
         }
 
     }
@@ -37,15 +37,36 @@ public class ComboCounter : MonoBehaviour
 
     public void ClearCombo()
     {
-        foreach(var orbs in DragObjList)
+        foreach (var orbs in DragObjList)
         {
             if (orbs.GetComponent<OrbController>().ComboEffect.gameObject.gameObject)
             {
                 orbs.GetComponent<OrbController>().ComboEffect.gameObject.SetActive(false);
             }
 
-            ++CurrentComboCount;
+            CurrentComboCount++;
         }
         DragObjList.Clear();
+    }
+
+    /// <summary>
+    ///magunitudeで二点間の距離求める
+    ///玉の最後の距離と二個目の距離を‐する
+    ///２．０以上の距離は消えないようにする
+    ///Debug.logで距離を求める
+    ///(pos1 - pos2).magnitudeが公式
+    ///float型の変数diff
+    ///
+    ///
+    /// </summary>
+    /// <param name="thisOrbTransform"></param>
+    /// <returns></returns>
+    public bool CheckCombo(Transform thisOrbTransform)
+    {
+        float diff = (DragObjList.LastOrDefault().transform.position - thisOrbTransform.position).magnitude;
+        Debug.Log("きょりは＞？"+ diff);
+
+        return diff >= 2.0f;
+
     }
 }

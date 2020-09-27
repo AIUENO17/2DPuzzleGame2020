@@ -9,10 +9,13 @@ public class ScoreViewer : MonoBehaviour
 
         [SerializeField] TextMeshProUGUI m_scoerText = null;
 
+    public int Score;
+    
 
     // Start is called before the first frame update
     void Start()
     {
+        
         
     }
 
@@ -20,5 +23,6 @@ public class ScoreViewer : MonoBehaviour
     void Update()
     {
         m_scoerText.text = $"{m_comboCounter.CurrentComboCount}";
+        Score = m_comboCounter.CurrentComboCount;
     }
 }

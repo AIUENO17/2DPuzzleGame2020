@@ -9,7 +9,8 @@ public class LimitTimeCountViewer : MonoBehaviour
     [SerializeField]
     TextMeshProUGUI  m_TimeText = null;
 
-     float m_limitTime;
+    
+    public  float m_limitTime;
     // Start is called before the first frame update
     private void Start()
     {
