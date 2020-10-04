@@ -17,6 +17,9 @@ public class OrbController : MonoBehaviour, IPointerDownHandler,IPointerEnterHan
         GreenOrb,
         RedOrb,
         YellowOrb,
+        DevilOrb,
+        SpecialOrb
+
     }
     public OrbType ThisOrbType = OrbType.Invalide;
 
@@ -24,6 +27,11 @@ public class OrbController : MonoBehaviour, IPointerDownHandler,IPointerEnterHan
 
     public OrbGenerater OrbGenerater = null;
 
+    public LimitTimeCountViewer LimitTimeCountViewer = null;
+
+    public ScoreViewer ScoreViewer = null;
+
+    private float m_DevilOrbDisapperSeconds = 6f;
 
     // Start is called before the first frame update
     private void Awake()
@@ -33,13 +41,44 @@ public class OrbController : MonoBehaviour, IPointerDownHandler,IPointerEnterHan
         ComboEffect.gameObject.SetActive(false);
     }
 
+    private void Update()
+      
+    {
+       
+       if (ThisOrbType == OrbType.DevilOrb)
+        {
+            m_DevilOrbDisapperSeconds -= Time.deltaTime;
+            if (m_DevilOrbDisapperSeconds <= 0)
+            {
+                OrbGenerater.OrbGenerate(1);
+                this.gameObject.SetActive(false);
+            }
+        }
+    }
+    public void ShuffleAction()
+    {
+        this.GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(-10, 10), Random.Range(-10, 10)),ForceMode2D.Impulse);
+          
+    }
     // Update is called once per frame
-   
+
     public void OnPointerEnter(PointerEventData eventData)
     {
+
+        if (ThisOrbType == OrbType.DevilOrb)
+        {
+            DevilAction();
+            return;
+        }
         if (comboCounter.DragObjList.Count.Equals(0))
         {
             return;
+        }
+
+        if (ThisOrbType == OrbType.SpecialOrb || comboCounter.DragObjList.LastOrDefault().GetComponent<OrbController>().ThisOrbType == OrbType.SpecialOrb)
+        {
+            comboCounter.AddCombo(this.gameObject);
+                return;
         }
 
         if (comboCounter.CheckCombo(this.transform))
@@ -81,9 +120,20 @@ public class OrbController : MonoBehaviour, IPointerDownHandler,IPointerEnterHan
         }
         comboCounter.ClearCombo();
         }
-
+    public void DevilAction()
+    {
+        LimitTimeCountViewer.MinusTime();
+        ScoreViewer.MinusScore();
+    }
     public void OnPointerDown(PointerEventData eventData)
     {
+
+        
+        if (ThisOrbType == OrbType.DevilOrb)
+        {
+            DevilAction();
+            return;
+        }
         comboCounter.AddCombo(this.gameObject);
     }
 }

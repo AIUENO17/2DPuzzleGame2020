@@ -6,13 +6,19 @@ using System.Linq;
 
 public class ComboCounter : MonoBehaviour
 {
+    //List,GameObject
     public List<GameObject> DragObjList = new List<GameObject>();
 
+    
     public int ComboCount => DragObjList.Count;
-
+    //publicのOrbGenereter型のorbGenereter
     public OrbGenerater orbGenerater = null;
-
+    //public のint型のCurrentComboCount
     public int CurrentComboCount;
+
+    [SerializeField] private LimitTimeCountViewer m_limitTimeCountViewer = null;
+
+
     public void AddCombo(GameObject orb)
     {
         DragObjList.Add(orb);
@@ -28,15 +34,24 @@ public class ComboCounter : MonoBehaviour
         }
 
     }
+    //－コンボの時
     public void MinusCombo()
     {
+        //DragObjListの最後の要素から、OrbControllerを取得しcomboEffectのgameObjectのactiveをfalseにする
         DragObjList.LastOrDefault().GetComponent<OrbController>().ComboEffect.gameObject.SetActive(false);
-
+        
         DragObjList.Remove(DragObjList.LastOrDefault());
     }
 
     public void ClearCombo()
     {
+
+        if (DragObjList.Count >4 )
+        {
+            m_limitTimeCountViewer.PlusTime();
+        }
+
+        //コンボが３以上だったら増やす
         foreach (var orbs in DragObjList)
         {
             if (orbs.GetComponent<OrbController>().ComboEffect.gameObject.gameObject)
@@ -48,6 +63,7 @@ public class ComboCounter : MonoBehaviour
         }
         DragObjList.Clear();
     }
+    
 
     /// <summary>
     ///magunitudeで二点間の距離求める

@@ -70,6 +70,7 @@
     <Compile Include="Assets\Script\OrbGenerater.cs" />
     <Compile Include="Assets\Script\ResultPresenter.cs" />
     <Compile Include="Assets\Script\ScoreViewer.cs" />
+    <Compile Include="Assets\Script\ShuffleOrb.cs" />
     <Compile Include="Assets\Script\TitlePresenter.cs" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro.cginc" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Overlay.shader" />
