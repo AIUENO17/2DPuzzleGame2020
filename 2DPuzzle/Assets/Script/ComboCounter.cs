@@ -18,6 +18,7 @@ public class ComboCounter : MonoBehaviour
 
     [SerializeField] private LimitTimeCountViewer m_limitTimeCountViewer = null;
 
+    public SEManager m_semanager = null;
 
     public void AddCombo(GameObject orb)
     {
@@ -50,7 +51,10 @@ public class ComboCounter : MonoBehaviour
         {
             m_limitTimeCountViewer.PlusTime();
         }
-
+        if (DragObjList.Count>2)
+        {
+            m_semanager.PlaySE();
+        }
         //コンボが３以上だったら増やす
         foreach (var orbs in DragObjList)
         {
@@ -58,9 +62,11 @@ public class ComboCounter : MonoBehaviour
             {
                 orbs.GetComponent<OrbController>().ComboEffect.gameObject.SetActive(false);
             }
-
-            CurrentComboCount++;
         }
+        DragObjList.Clear();
+
+        m_semanager.PlaySE();
+
         DragObjList.Clear();
     }
     

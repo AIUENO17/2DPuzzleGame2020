@@ -20,6 +20,21 @@ public class GameMainPresenter : MonoBehaviour
     }
     private void GotoResult()
     {
+        //
+        if (PlayerPrefs.GetInt("HighScore" ,0) != 0)
+        {
+            if (PlayerPrefs.GetInt("HighScore") < m_scoreViewer.Score)
+            {
+                PlayerPrefs.SetInt("HighScore", m_scoreViewer.Score);
+            }
+        }
+        else
+        {
+
+
+            PlayerPrefs.SetInt("HighScore", m_scoreViewer.Score);
+        }
+    
         PlayerPrefs.SetInt("Score",m_scoreViewer.Score );
         PlayerPrefs.Save();
 

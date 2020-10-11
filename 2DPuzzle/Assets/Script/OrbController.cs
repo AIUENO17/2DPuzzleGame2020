@@ -3,16 +3,16 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using System.Linq;
 
-public class OrbController : MonoBehaviour, IPointerDownHandler,IPointerEnterHandler,IPointerUpHandler
+public class OrbController : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerUpHandler
 {
     private SpriteRenderer m_spriteRenderer = null;
 
     public ComboCounter comboCounter = null;
 
-    public ComboCounter comboCountroller  = null;
+    public ComboCounter comboCountroller = null;
     public enum OrbType
     {
-        Invalide =-1,
+        Invalide = -1,
         BlueOrb,
         GreenOrb,
         RedOrb,
@@ -23,7 +23,7 @@ public class OrbController : MonoBehaviour, IPointerDownHandler,IPointerEnterHan
     }
     public OrbType ThisOrbType = OrbType.Invalide;
 
-     public  ParticleSystem ComboEffect = null;
+    public ParticleSystem ComboEffect = null;
 
     public OrbGenerater OrbGenerater = null;
 
@@ -42,10 +42,10 @@ public class OrbController : MonoBehaviour, IPointerDownHandler,IPointerEnterHan
     }
 
     private void Update()
-      
+
     {
-       
-       if (ThisOrbType == OrbType.DevilOrb)
+
+        if (ThisOrbType == OrbType.DevilOrb)
         {
             m_DevilOrbDisapperSeconds -= Time.deltaTime;
             if (m_DevilOrbDisapperSeconds <= 0)
@@ -57,8 +57,8 @@ public class OrbController : MonoBehaviour, IPointerDownHandler,IPointerEnterHan
     }
     public void ShuffleAction()
     {
-        this.GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(-10, 10), Random.Range(-10, 10)),ForceMode2D.Impulse);
-          
+        this.GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(-10, 10), Random.Range(-10, 10)), ForceMode2D.Impulse);
+
     }
     // Update is called once per frame
 
@@ -75,17 +75,28 @@ public class OrbController : MonoBehaviour, IPointerDownHandler,IPointerEnterHan
             return;
         }
 
+
         if (ThisOrbType == OrbType.SpecialOrb || comboCounter.DragObjList.LastOrDefault().GetComponent<OrbController>().ThisOrbType == OrbType.SpecialOrb)
         {
+
+            //リストの中に自分がいたら帰る
+
+            foreach (var thisObj in comboCounter.DragObjList)
+            {
+                if (thisObj == this.gameObject)
+                {
+                    return;
+                }
+            }
             comboCounter.AddCombo(this.gameObject);
-                return;
+            return;
         }
 
         if (comboCounter.CheckCombo(this.transform))
         {
             return;
         }
-        
+
 
         if (comboCounter.DragObjList.Contains(this.gameObject))
         {
@@ -116,10 +127,12 @@ public class OrbController : MonoBehaviour, IPointerDownHandler,IPointerEnterHan
                 orb.SetActive(false);
             }
 
+            comboCounter.CurrentComboCount += comboCounter.ComboCount;
             OrbGenerater.OrbGenerate(comboCounter.ComboCount);
         }
         comboCounter.ClearCombo();
-        }
+    }
+
     public void DevilAction()
     {
         LimitTimeCountViewer.MinusTime();
@@ -128,7 +141,7 @@ public class OrbController : MonoBehaviour, IPointerDownHandler,IPointerEnterHan
     public void OnPointerDown(PointerEventData eventData)
     {
 
-        
+
         if (ThisOrbType == OrbType.DevilOrb)
         {
             DevilAction();
@@ -138,4 +151,4 @@ public class OrbController : MonoBehaviour, IPointerDownHandler,IPointerEnterHan
     }
 }
 
-    
+

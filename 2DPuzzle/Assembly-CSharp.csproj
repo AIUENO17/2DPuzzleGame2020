@@ -69,6 +69,7 @@
     <Compile Include="Assets\Script\OrbController.cs" />
     <Compile Include="Assets\Script\OrbGenerater.cs" />
     <Compile Include="Assets\Script\ResultPresenter.cs" />
+    <Compile Include="Assets\Script\SEManager.cs" />
     <Compile Include="Assets\Script\ScoreViewer.cs" />
     <Compile Include="Assets\Script\ShuffleOrb.cs" />
     <Compile Include="Assets\Script\TitlePresenter.cs" />
